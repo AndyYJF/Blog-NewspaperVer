@@ -1,0 +1,76 @@
+// Prisma schema — 杂志风博客
+// 文档: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         String   @default("admin") // admin | editor
+  bio          String?
+  avatar       String?
+  posts        Post[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  titleEn     String?
+  excerpt     String?
+  excerptEn   String?
+  content     String    // Markdown 源
+  contentHtml String?   // 渲染缓存（可选）
+  coverImage  String?
+  coverCaption String?
+  status      String    @default("draft") // draft | published
+  featured    Boolean   @default(false)
+  views       Int       @default(0)
+  aiSummary   String?   // AI 总结
+  readingTime Int?      // 阅读分钟
+  locale      String    @default("zh") // zh | en
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id])
+
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  tags        Tag[]     @relation("PostTags")
+
+  @@index([status, publishedAt])
+  @@index([slug])
+  @@index([featured])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  nameEn    String?
+  description String?
+  posts     Post[]
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  posts     Post[]   @relation("PostTags")
+  createdAt DateTime @default(now())
+}

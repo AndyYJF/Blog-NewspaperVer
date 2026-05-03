@@ -1,0 +1,74 @@
+{
+  "site": {
+    "title": "Quill & Press",
+    "tagline": "Essays, ideas, and quiet observations"
+  },
+  "nav": {
+    "home": "Home",
+    "posts": "Posts",
+    "categories": "Categories",
+    "tags": "Tags",
+    "archive": "Archive",
+    "about": "About",
+    "rss": "RSS"
+  },
+  "home": {
+    "featured": "Featured",
+    "recent": "Recent Essays",
+    "all": "View All",
+    "issue": "Issue {issue}"
+  },
+  "post": {
+    "by": "By",
+    "publishedOn": "Published on",
+    "readingMinutes": "{minutes} min read",
+    "tableOfContents": "Contents",
+    "tags": "Tags",
+    "share": "Share",
+    "related": "Further Reading",
+    "comments": "Comments",
+    "aiSummary": "AI Summary",
+    "noComments": "Giscus is not configured. Set the env variables to enable comments.",
+    "previous": "Previous",
+    "next": "Next",
+    "backToList": "Back to all"
+  },
+  "common": {
+    "loading": "Loading…",
+    "empty": "Nothing here yet",
+    "search": "Search",
+    "darkMode": "Toggle theme",
+    "language": "Language",
+    "more": "Read more"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "posts": "Posts",
+    "newPost": "New Post",
+    "tags": "Tags",
+    "settings": "Settings",
+    "logout": "Sign out",
+    "login": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "save": "Save",
+    "publish": "Publish",
+    "draft": "Save Draft",
+    "delete": "Delete",
+    "title": "Title",
+    "slug": "Slug",
+    "excerpt": "Excerpt",
+    "content": "Content",
+    "category": "Category",
+    "cover": "Cover Image",
+    "featured": "Feature this post",
+    "generateSummary": "Generate AI Summary",
+    "preview": "Preview",
+    "stats": {
+      "totalPosts": "Total Posts",
+      "published": "Published",
+      "drafts": "Drafts",
+      "views": "Total Views"
+    }
+  }
+}

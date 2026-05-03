@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens ---------- */
+@layer base {
+  :root {
+    /* Light — 米白纸张感 */
+    --color-paper: 251 249 244;        /* #FBF9F4 */
+    --color-ink: 26 26 26;             /* #1A1A1A */
+    --color-muted: 110 105 95;         /* #6E695F */
+    --color-subtle: 232 226 215;       /* #E8E2D7 */
+    --color-rule: 209 201 186;         /* #D1C9BA */
+    --color-accent: 123 30 45;         /* #7B1E2D 酒红 */
+    --color-accent-soft: 230 215 218;  /* 酒红浅色背景 */
+
+    --font-serif-display: "Playfair Display", "Noto Serif SC", Georgia, serif;
+    --font-serif-body: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    --font-serif-sc: "Noto Serif SC", "Source Serif 4", Georgia, serif;
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  .dark {
+    /* Dark — 深棕墨色 */
+    --color-paper: 26 22 18;           /* #1A1612 */
+    --color-ink: 232 227 218;          /* #E8E3DA */
+    --color-muted: 158 148 130;        /* #9E9482 */
+    --color-subtle: 47 41 34;          /* #2F2922 */
+    --color-rule: 70 60 50;            /* #463C32 */
+    --color-accent: 201 169 110;       /* #C9A96E 暖金 */
+    --color-accent-soft: 56 47 34;
+  }
+
+  * {
+    border-color: rgb(var(--color-rule));
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga", "kern", "calt";
+  }
+
+  body {
+    background-color: rgb(var(--color-paper));
+    color: rgb(var(--color-ink));
+    font-family: var(--font-serif-body);
+    font-size: 17px;
+    line-height: 1.7;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  ::selection {
+    background-color: rgb(var(--color-accent) / 0.18);
+    color: rgb(var(--color-ink));
+  }
+
+  /* 滚动条 */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-rule));
+    border-radius: 99px;
+    border: 2px solid rgb(var(--color-paper));
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--color-muted)); }
+}
+
+/* ---------- Reusable components ---------- */
+@layer components {
+  /* 杂志栏分割线 */
+  .magazine-rule {
+    @apply border-t border-rule;
+  }
+
+  .magazine-rule-double {
+    border-top: 1px solid rgb(var(--color-ink));
+    border-bottom: 1px solid rgb(var(--color-ink));
+    padding-block: 0.5rem;
+    border-image-slice: 1;
+  }
+
+  /* 小型标签 */
+  .eyebrow {
+    @apply font-sans text-xs uppercase tracking-widest text-muted;
+    font-weight: 500;
+  }
+
+  /* 报头主标 */
+  .masthead {
+    font-family: var(--font-serif-display);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    font-feature-settings: "lnum", "liga";
+  }
+
+  /* 卡片 hover */
+  .card-hover {
+    @apply transition-all duration-300 ease-editorial;
+  }
+  .card-hover:hover {
+    @apply -translate-y-0.5;
+  }
+
+  /* 链接下划线动画 */
+  .link-magazine {
+    @apply relative inline-block;
+  }
+  .link-magazine::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-300 ease-editorial;
+  }
+  .link-magazine:hover::after {
+    @apply w-full;
+  }
+
+  /* 阅读进度条 */
+  .reading-progress {
+    @apply fixed left-0 top-0 z-50 h-[2px] bg-accent;
+    transform-origin: 0%;
+  }
+}
+
+/* ---------- View Transitions for theme toggle ---------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+.dark::view-transition-old(root) { z-index: 2; }
+.dark::view-transition-new(root) { z-index: 1; }

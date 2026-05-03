@@ -1,0 +1,217 @@
+/* ============================================
+   .prose-magazine — 杂志风正文排版
+   ============================================ */
+
+.prose-magazine {
+  font-family: var(--font-serif-body);
+  color: rgb(var(--color-ink));
+  font-size: 1.0625rem;
+  line-height: 1.78;
+  hanging-punctuation: first last;
+}
+
+/* 段落 */
+.prose-magazine p {
+  margin: 0 0 1.4em;
+  text-align: justify;
+  text-justify: inter-character;
+  hyphens: auto;
+}
+
+.prose-magazine p + p {
+  text-indent: 1.5em;
+  margin-top: -1em;
+}
+
+/* 首字下沉 — 杂志的灵魂细节 */
+.prose-magazine > p:first-of-type::first-letter,
+.prose-magazine .drop-cap::first-letter {
+  font-family: var(--font-serif-display);
+  font-weight: 800;
+  font-size: 4.5em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.08em 0.12em -0.1em 0;
+  color: rgb(var(--color-accent));
+  font-feature-settings: "lnum";
+}
+
+.prose-magazine > p:first-of-type {
+  text-indent: 0;
+}
+
+/* 标题 */
+.prose-magazine h1,
+.prose-magazine h2,
+.prose-magazine h3,
+.prose-magazine h4 {
+  font-family: var(--font-serif-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: rgb(var(--color-ink));
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+  line-height: 1.2;
+  scroll-margin-top: 5rem;
+}
+
+.prose-magazine h2 {
+  font-size: 1.75em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid rgb(var(--color-rule));
+}
+
+.prose-magazine h3 { font-size: 1.35em; }
+.prose-magazine h4 { font-size: 1.1em; }
+
+.prose-magazine h2 a,
+.prose-magazine h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 链接 */
+.prose-magazine a {
+  color: rgb(var(--color-accent));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(var(--color-accent) / 0.3);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 200ms;
+}
+.prose-magazine a:hover {
+  text-decoration-color: rgb(var(--color-accent));
+}
+
+/* 强调 */
+.prose-magazine strong {
+  font-weight: 700;
+  color: rgb(var(--color-ink));
+}
+.prose-magazine em {
+  font-style: italic;
+}
+
+/* 引用 — Pull Quote */
+.prose-magazine blockquote {
+  margin: 2em 0;
+  padding: 0.5em 0 0.5em 1.4em;
+  border-left: 3px solid rgb(var(--color-accent));
+  font-style: italic;
+  font-size: 1.15em;
+  color: rgb(var(--color-muted));
+  text-indent: 0 !important;
+}
+.prose-magazine blockquote p {
+  text-indent: 0;
+  margin: 0;
+}
+.prose-magazine blockquote p + p { margin-top: 0.6em; }
+
+/* 列表 */
+.prose-magazine ul,
+.prose-magazine ol {
+  margin: 1.2em 0;
+  padding-left: 1.5em;
+}
+.prose-magazine li { margin-bottom: 0.5em; }
+.prose-magazine ul li::marker { color: rgb(var(--color-accent)); }
+.prose-magazine ol li::marker {
+  color: rgb(var(--color-muted));
+  font-family: var(--font-serif-display);
+  font-weight: 600;
+}
+
+/* 表格 */
+.prose-magazine table {
+  width: 100%;
+  margin: 1.6em 0;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  font-family: var(--font-sans);
+}
+.prose-magazine th,
+.prose-magazine td {
+  padding: 0.6em 0.8em;
+  text-align: left;
+  border-bottom: 1px solid rgb(var(--color-rule));
+}
+.prose-magazine th {
+  border-bottom: 2px solid rgb(var(--color-ink));
+  font-weight: 600;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78em;
+}
+
+/* 行内代码 */
+.prose-magazine :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgb(var(--color-subtle));
+  padding: 0.12em 0.4em;
+  border-radius: 3px;
+  color: rgb(var(--color-accent));
+}
+
+/* 代码块 */
+.prose-magazine pre {
+  margin: 1.6em 0;
+  padding: 1.1em 1.3em;
+  background: rgb(var(--color-subtle));
+  border: 1px solid rgb(var(--color-rule));
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  line-height: 1.65;
+}
+.prose-magazine pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* 图片 */
+.prose-magazine img {
+  display: block;
+  width: 100%;
+  margin: 2em auto;
+  border-radius: 2px;
+}
+
+/* 水平线 — 杂志风装饰 */
+.prose-magazine hr {
+  margin: 3em auto;
+  width: 80px;
+  height: 1px;
+  border: 0;
+  background: rgb(var(--color-rule));
+  position: relative;
+}
+.prose-magazine hr::before {
+  content: "❦";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(var(--color-paper));
+  color: rgb(var(--color-accent));
+  padding: 0 0.6em;
+  font-size: 1.1em;
+}
+
+/* 自动锚点链接图标 */
+.prose-magazine .anchor-link {
+  margin-left: 0.4em;
+  color: rgb(var(--color-muted));
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.prose-magazine h2:hover .anchor-link,
+.prose-magazine h3:hover .anchor-link {
+  opacity: 1;
+}
