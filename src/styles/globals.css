@@ -23,6 +23,9 @@
     /* Fraunces variable axis settings */
     --display-opsz: 80;
     --display-soft: 50;
+
+    /* Italic alias — Fraunces' own italic shapes replace the old Instrument Serif font. */
+    --font-display-italic: var(--font-display);
   }
 
   .dark {

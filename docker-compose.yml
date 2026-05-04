@@ -1,0 +1,35 @@
+services:
+  blog:
+    build: .
+    image: my-blog:latest
+    container_name: my-blog
+    restart: unless-stopped
+    # Memory ceiling generous enough for SSR spikes; idle sits ~150 MB.
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 192M
+    ports:
+      - "3000:3000"
+    environment:
+      # ---- Bootstrap secrets (override via .env or `docker compose --env-file`) ----
+      AUTH_SECRET: ${AUTH_SECRET:?set AUTH_SECRET in .env (run: openssl rand -hex 32)}
+      AUTH_URL: ${AUTH_URL:-http://localhost:3000}
+      AUTH_TRUST_HOST: "true"
+      # First-boot admin (only used while DB is empty)
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env}
+      ADMIN_NAME: ${ADMIN_NAME:-Editor}
+      # ---- Optional defaults — anything below can be edited from /admin/settings ----
+      NEXT_PUBLIC_SITE_URL: ${SITE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_SITE_TITLE: ${SITE_TITLE:-Quill & Press}
+      NEXT_PUBLIC_SITE_TAGLINE: ${SITE_TAGLINE:-A magazine of essays, ideas, and quiet observations}
+    volumes:
+      - blog-data:/app/data
+      - blog-uploads:/app/public/uploads
+
+volumes:
+  blog-data:
+  blog-uploads:

@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
 import createMiddleware from "next-intl/middleware";
 import { locales, defaultLocale } from "@/lib/i18n";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const intlMiddleware = createMiddleware({
   locales: locales as unknown as string[],
@@ -9,13 +9,20 @@ const intlMiddleware = createMiddleware({
   localePrefix: "always",
 });
 
-export default auth((req) => {
+export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Admin 路由保护（不参与 i18n）
+  // Admin routes — JWT check only, no full auth() wrap (avoids cookie bloat).
   if (pathname.startsWith("/admin")) {
     if (pathname === "/admin/login") return NextResponse.next();
-    if (!req.auth) {
+    const token = await getToken({
+      req,
+      secret: process.env.AUTH_SECRET,
+      salt: process.env.NODE_ENV === "production"
+        ? "__Secure-authjs.session-token"
+        : "authjs.session-token",
+    });
+    if (!token) {
       const url = req.nextUrl.clone();
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
@@ -23,7 +30,7 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // API / 静态资源 / RSS 跳过 i18n
+  // API / static / feeds — bypass i18n
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
@@ -37,7 +44,7 @@ export default auth((req) => {
   }
 
   return intlMiddleware(req);
-});
+}
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],

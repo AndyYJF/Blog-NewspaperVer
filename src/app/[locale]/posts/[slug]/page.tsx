@@ -13,6 +13,10 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+// Heavy CSS — only loaded on the article detail route, not site-wide.
+import "katex/dist/katex.min.css";
+import "highlight.js/styles/github.min.css";
+
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
