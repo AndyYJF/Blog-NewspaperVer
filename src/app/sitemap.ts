@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { siteConfig } from "@/lib/utils";
+import { getSiteConfig } from "@/lib/settings";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { url } = siteConfig();
+  const { url } = await getSiteConfig();
   const posts = await prisma.post.findMany({
     where: { status: "published" },
     select: { slug: true, updatedAt: true },

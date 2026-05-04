@@ -1,8 +1,9 @@
 import { prisma } from "./prisma";
-import { siteConfig } from "./utils";
+import { getSiteConfig } from "./settings";
 
 export async function generateRssFeed() {
-  const { url, title, tagline } = siteConfig();
+  const cfg = await getSiteConfig();
+  const { url, title, tagline } = cfg;
   const posts = await prisma.post.findMany({
     where: { status: "published" },
     orderBy: { publishedAt: "desc" },

@@ -2,34 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Design tokens ---------- */
+/* ============================================================
+   Editorial Magazine — Design Tokens
+   Inspired by The Believer, Wallpaper*, NYT Sunday Magazine
+   ============================================================ */
+
 @layer base {
   :root {
-    /* Light — 米白纸张感 */
-    --color-paper: 251 249 244;        /* #FBF9F4 */
-    --color-ink: 26 26 26;             /* #1A1A1A */
-    --color-muted: 110 105 95;         /* #6E695F */
-    --color-subtle: 232 226 215;       /* #E8E2D7 */
-    --color-rule: 209 201 186;         /* #D1C9BA */
-    --color-accent: 123 30 45;         /* #7B1E2D 酒红 */
-    --color-accent-soft: 230 215 218;  /* 酒红浅色背景 */
+    /* Light — warm aged ivory + warm black + oxblood + brass */
+    --color-canvas: 248 243 233;       /* #F8F3E9 — outer canvas (slightly darker than paper) */
+    --color-paper: 245 240 230;        /* #F5F0E6 — primary surface */
+    --color-ink: 22 18 14;             /* #16120E — warm black */
+    --color-muted: 113 100 82;         /* #716452 — warm gray-brown */
+    --color-subtle: 232 223 207;       /* #E8DFCF — paper highlight */
+    --color-rule: 191 175 148;         /* #BFAF94 — aged rule */
+    --color-accent: 139 38 53;         /* #8B2635 — oxblood */
+    --color-accent-soft: 230 210 211;  /* tinted background */
+    --color-brass: 184 153 104;        /* #B89968 — aged brass */
 
-    --font-serif-display: "Playfair Display", "Noto Serif SC", Georgia, serif;
-    --font-serif-body: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    --font-serif-sc: "Noto Serif SC", "Source Serif 4", Georgia, serif;
-    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    /* Fraunces variable axis settings */
+    --display-opsz: 80;
+    --display-soft: 50;
   }
 
   .dark {
-    /* Dark — 深棕墨色 */
-    --color-paper: 26 22 18;           /* #1A1612 */
-    --color-ink: 232 227 218;          /* #E8E3DA */
-    --color-muted: 158 148 130;        /* #9E9482 */
-    --color-subtle: 47 41 34;          /* #2F2922 */
-    --color-rule: 70 60 50;            /* #463C32 */
-    --color-accent: 201 169 110;       /* #C9A96E 暖金 */
-    --color-accent-soft: 56 47 34;
+    /* Dark — deep cocoa + bone + warm gold + muted oxblood */
+    --color-canvas: 14 11 8;           /* #0E0B08 */
+    --color-paper: 20 16 12;           /* #14100C */
+    --color-ink: 232 223 210;          /* #E8DFD2 — bone */
+    --color-muted: 156 142 121;        /* #9C8E79 */
+    --color-subtle: 38 30 24;          /* #261E18 */
+    --color-rule: 64 53 42;            /* #40352A */
+    --color-accent: 212 165 116;       /* #D4A574 — warm gold */
+    --color-accent-soft: 56 46 35;
+    --color-brass: 156 122 71;
   }
 
   * {
@@ -40,98 +46,271 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "liga", "kern", "calt";
+    font-feature-settings: "liga", "kern", "calt", "ss01";
+    font-variation-settings: "opsz" var(--display-opsz);
   }
 
   body {
-    background-color: rgb(var(--color-paper));
+    background-color: rgb(var(--color-canvas));
     color: rgb(var(--color-ink));
-    font-family: var(--font-serif-body);
+    font-family: var(--font-body), var(--font-sc), Georgia, serif;
     font-size: 17px;
     line-height: 1.7;
-    transition: background-color 200ms ease, color 200ms ease;
+    transition: background-color 220ms ease, color 220ms ease;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgb(var(--color-paper)) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgb(var(--color-subtle) / 0.4) 0%, transparent 70%);
+    background-attachment: fixed;
   }
 
   ::selection {
-    background-color: rgb(var(--color-accent) / 0.18);
+    background-color: rgb(var(--color-accent) / 0.22);
     color: rgb(var(--color-ink));
   }
 
-  /* 滚动条 */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  /* Editorial scrollbar */
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
     background: rgb(var(--color-rule));
     border-radius: 99px;
-    border: 2px solid rgb(var(--color-paper));
+    border: 3px solid rgb(var(--color-canvas));
   }
   ::-webkit-scrollbar-thumb:hover { background: rgb(var(--color-muted)); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+
+  /* Focus rings — editorial */
+  :focus-visible {
+    outline: 1px solid rgb(var(--color-accent));
+    outline-offset: 3px;
+  }
+
+  /* Safari — disable double-tap zoom that interferes with view transitions */
+  button { touch-action: manipulation; }
 }
 
-/* ---------- Reusable components ---------- */
+/* ============================================================
+   Reusable editorial chrome
+   ============================================================ */
 @layer components {
-  /* 杂志栏分割线 */
+  /* Eyebrow — small caps utility label */
+  .eyebrow {
+    @apply font-sans uppercase text-muted;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+  }
+
+  .eyebrow-tight {
+    @apply font-sans uppercase text-muted;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+  }
+
+  /* Masthead — the name of the magazine */
+  .masthead {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-variation-settings: "opsz" 144, "SOFT" 0;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    font-feature-settings: "lnum", "ss01", "liga";
+  }
+
+  /* Display heading — softer Fraunces */
+  .display-soft {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+
+  /* Decorative divider with a center ornament (uses ::before/after) */
+  .ornament {
+    @apply relative flex items-center justify-center text-accent;
+  }
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgb(var(--color-rule)), transparent);
+  }
+  .ornament > * {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-variation-settings: "opsz" 144;
+  }
+
+  /* Editorial double rule */
   .magazine-rule {
     @apply border-t border-rule;
   }
-
-  .magazine-rule-double {
+  .magazine-double-rule {
+    height: 4px;
     border-top: 1px solid rgb(var(--color-ink));
     border-bottom: 1px solid rgb(var(--color-ink));
-    padding-block: 0.5rem;
-    border-image-slice: 1;
   }
 
-  /* 小型标签 */
-  .eyebrow {
-    @apply font-sans text-xs uppercase tracking-widest text-muted;
-    font-weight: 500;
+  /* Magazine label, used for issue / vol */
+  .label-issue {
+    @apply font-sans uppercase;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
   }
 
-  /* 报头主标 */
-  .masthead {
-    font-family: var(--font-serif-display);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    font-feature-settings: "lnum", "liga";
-  }
-
-  /* 卡片 hover */
+  /* Card hover */
   .card-hover {
-    @apply transition-all duration-300 ease-editorial;
+    @apply transition-all duration-500 ease-editorial;
   }
   .card-hover:hover {
     @apply -translate-y-0.5;
   }
 
-  /* 链接下划线动画 */
+  /* Animated underline link */
   .link-magazine {
     @apply relative inline-block;
   }
   .link-magazine::after {
     content: "";
-    @apply absolute bottom-0 left-0 h-px w-0 bg-current transition-all duration-300 ease-editorial;
+    @apply absolute -bottom-0.5 left-0 h-px w-0 bg-current transition-all duration-500 ease-editorial;
   }
   .link-magazine:hover::after {
     @apply w-full;
   }
 
-  /* 阅读进度条 */
+  /* Reading progress bar */
   .reading-progress {
-    @apply fixed left-0 top-0 z-50 h-[2px] bg-accent;
+    @apply fixed left-0 top-0 z-50 h-[2px] w-full bg-accent;
     transform-origin: 0%;
+    box-shadow: 0 0 8px rgb(var(--color-accent) / 0.5);
+  }
+
+  /* Section number — large decorative numeral */
+  .section-numeral {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    font-feature-settings: "lnum", "ss01";
+    font-weight: 800;
+    color: rgb(var(--color-accent));
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+  }
+
+  /* Editorial italic */
+  .editorial-italic {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+  }
+
+  /* Drop cap utility — for the first paragraph of a card */
+  .drop-cap-sm::first-letter {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.6em;
+    line-height: 0.9;
+    float: left;
+    margin: 0.05em 0.08em -0.05em 0;
+    color: rgb(var(--color-accent));
+  }
+
+  /* Decorative corner brackets */
+  .corner-brackets {
+    @apply relative;
+  }
+  .corner-brackets::before,
+  .corner-brackets::after {
+    content: "";
+    @apply absolute size-3 border-ink;
+    border-style: solid;
+  }
+  .corner-brackets::before {
+    @apply -top-px -left-px border-t border-l;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .corner-brackets::after {
+    @apply -bottom-px -right-px border-b border-r;
+    border-top: 0;
+    border-left: 0;
   }
 }
 
-/* ---------- View Transitions for theme toggle ---------- */
+/* ============================================================
+   Mermaid — force diagrams to fill container width
+   ============================================================ */
+.mermaid-svg,
+.mermaid-svg svg {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+.mermaid-svg svg .label,
+.mermaid-svg svg .nodeLabel,
+.mermaid-svg svg .edgeLabel {
+  font-family: var(--font-body), Georgia, serif !important;
+}
+
+/* ============================================================
+   Grain texture — paper feel
+   ============================================================ */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+}
+.dark .grain {
+  mix-blend-mode: screen;
+  opacity: 0.05;
+}
+
+/* ============================================================
+   View Transitions for theme toggle (circular wipe)
+   ============================================================ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-
 ::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2; }
-
 .dark::view-transition-old(root) { z-index: 2; }
 .dark::view-transition-new(root) { z-index: 1; }
+
+/* ============================================================
+   Page entrance keyframes (used by [data-anim] attributes)
+   ============================================================ */
+[data-anim="rule"] {
+  transform-origin: left;
+  animation: rule-draw 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+[data-anim="fade-up"] {
+  animation: fade-up 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* delay utility used inline */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

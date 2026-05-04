@@ -74,3 +74,20 @@ model Tag {
   posts     Post[]   @relation("PostTags")
   createdAt DateTime @default(now())
 }
+
+/// Generic key/value store for site settings (editable from /admin/settings)
+model Setting {
+  key       String   @id
+  value     String
+  /// Optional metadata for UI: type=text|textarea|password|url
+  type      String   @default("text")
+  /// Optional human label for the form
+  label     String?
+  /// Optional grouping in the UI
+  group     String   @default("general")
+  /// Sort order within group
+  order     Int      @default(0)
+  /// Mark a value as secret (rendered as password input)
+  secret    Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+}

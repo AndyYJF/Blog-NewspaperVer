@@ -1,68 +1,82 @@
-/* ============================================
-   .prose-magazine — 杂志风正文排版
-   ============================================ */
+/* ============================================================
+   .prose-magazine — Editorial / Fine-magazine typography
+   Inspired by The Believer, NYT Sunday Magazine, Wallpaper*
+   ============================================================ */
 
 .prose-magazine {
-  font-family: var(--font-serif-body);
+  font-family: var(--font-body), var(--font-sc), Georgia, serif;
   color: rgb(var(--color-ink));
   font-size: 1.0625rem;
   line-height: 1.78;
   hanging-punctuation: first last;
 }
 
-/* 段落 */
+/* Paragraphs */
 .prose-magazine p {
   margin: 0 0 1.4em;
   text-align: justify;
   text-justify: inter-character;
   hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
+/* Continuing paragraphs are indented (newspaper convention) */
 .prose-magazine p + p {
   text-indent: 1.5em;
-  margin-top: -1em;
+  margin-top: -0.95em;
 }
 
-/* 首字下沉 — 杂志的灵魂细节 */
+/* Drop cap — magazine signature element */
 .prose-magazine > p:first-of-type::first-letter,
 .prose-magazine .drop-cap::first-letter {
-  font-family: var(--font-serif-display);
-  font-weight: 800;
-  font-size: 4.5em;
-  line-height: 0.85;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0;
+  font-weight: 900;
+  font-size: 5.4em;
+  line-height: 0.82;
   float: left;
-  margin: 0.08em 0.12em -0.1em 0;
+  margin: 0.06em 0.1em -0.08em 0;
   color: rgb(var(--color-accent));
-  font-feature-settings: "lnum";
+  font-feature-settings: "lnum", "ss01";
+  text-transform: uppercase;
 }
-
 .prose-magazine > p:first-of-type {
   text-indent: 0;
 }
 
-/* 标题 */
+/* Headings */
 .prose-magazine h1,
 .prose-magazine h2,
 .prose-magazine h3,
 .prose-magazine h4 {
-  font-family: var(--font-serif-display);
+  font-family: var(--font-display), var(--font-sc), Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.025em;
   color: rgb(var(--color-ink));
-  margin-top: 2.2em;
+  margin-top: 2.4em;
   margin-bottom: 0.6em;
-  line-height: 1.2;
-  scroll-margin-top: 5rem;
+  line-height: 1.15;
+  scroll-margin-top: 6rem;
 }
 
 .prose-magazine h2 {
-  font-size: 1.75em;
-  padding-bottom: 0.35em;
-  border-bottom: 1px solid rgb(var(--color-rule));
+  font-size: 1.85em;
+  padding-bottom: 0.4em;
+  position: relative;
+}
+.prose-magazine h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2.2em;
+  height: 1px;
+  background: rgb(var(--color-accent));
 }
 
-.prose-magazine h3 { font-size: 1.35em; }
-.prose-magazine h4 { font-size: 1.1em; }
+.prose-magazine h3 { font-size: 1.4em; font-weight: 600; }
+.prose-magazine h4 { font-size: 1.1em; font-weight: 600; }
 
 .prose-magazine h2 a,
 .prose-magazine h3 a {
@@ -70,102 +84,153 @@
   text-decoration: none;
 }
 
-/* 链接 */
+/* Editorial links */
 .prose-magazine a {
   color: rgb(var(--color-accent));
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: rgb(var(--color-accent) / 0.3);
-  text-underline-offset: 0.22em;
-  transition: text-decoration-color 200ms;
+  text-decoration-color: rgb(var(--color-accent) / 0.32);
+  text-underline-offset: 0.24em;
+  transition: text-decoration-color 220ms, color 220ms;
 }
 .prose-magazine a:hover {
   text-decoration-color: rgb(var(--color-accent));
 }
 
-/* 强调 */
+/* Strong & emphasis */
 .prose-magazine strong {
   font-weight: 700;
   color: rgb(var(--color-ink));
 }
 .prose-magazine em {
+  font-family: var(--font-display-italic), var(--font-sc), Georgia, serif;
   font-style: italic;
+  letter-spacing: 0.005em;
 }
 
-/* 引用 — Pull Quote */
+/* Pull-quote / blockquote — beautiful italic display */
 .prose-magazine blockquote {
-  margin: 2em 0;
-  padding: 0.5em 0 0.5em 1.4em;
-  border-left: 3px solid rgb(var(--color-accent));
+  margin: 2.4em 0;
+  padding: 0.4em 0 0.4em 0;
+  border: 0;
+  font-family: var(--font-display-italic), var(--font-sc), Georgia, serif;
   font-style: italic;
-  font-size: 1.15em;
-  color: rgb(var(--color-muted));
+  font-size: 1.6em;
+  line-height: 1.32;
+  color: rgb(var(--color-ink));
   text-indent: 0 !important;
+  text-align: left;
+  position: relative;
+}
+.prose-magazine blockquote::before {
+  content: "“";
+  position: absolute;
+  left: -0.45em;
+  top: -0.35em;
+  font-size: 3em;
+  font-family: var(--font-display);
+  color: rgb(var(--color-accent) / 0.4);
+  line-height: 1;
 }
 .prose-magazine blockquote p {
   text-indent: 0;
   margin: 0;
+  text-align: left;
 }
 .prose-magazine blockquote p + p { margin-top: 0.6em; }
+.prose-magazine blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.5em;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-muted));
+}
 
-/* 列表 */
+/* Lists */
 .prose-magazine ul,
 .prose-magazine ol {
-  margin: 1.2em 0;
+  margin: 1.3em 0;
   padding-left: 1.5em;
 }
-.prose-magazine li { margin-bottom: 0.5em; }
-.prose-magazine ul li::marker { color: rgb(var(--color-accent)); }
+.prose-magazine li { margin-bottom: 0.5em; padding-left: 0.4em; }
+.prose-magazine ul { list-style: none; padding-left: 0; }
+.prose-magazine ul > li { padding-left: 1.6em; position: relative; }
+.prose-magazine ul > li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: rgb(var(--color-accent));
+  font-size: 0.85em;
+  font-family: var(--font-display);
+}
 .prose-magazine ol li::marker {
-  color: rgb(var(--color-muted));
-  font-family: var(--font-serif-display);
-  font-weight: 600;
+  color: rgb(var(--color-accent));
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-feature-settings: "lnum";
 }
 
-/* 表格 */
+/* Table — broadsheet */
 .prose-magazine table {
   width: 100%;
-  margin: 1.6em 0;
+  margin: 1.8em 0;
   border-collapse: collapse;
-  font-size: 0.95em;
+  font-size: 0.92em;
   font-family: var(--font-sans);
 }
 .prose-magazine th,
 .prose-magazine td {
-  padding: 0.6em 0.8em;
+  padding: 0.7em 0.8em;
   text-align: left;
   border-bottom: 1px solid rgb(var(--color-rule));
 }
 .prose-magazine th {
   border-bottom: 2px solid rgb(var(--color-ink));
   font-weight: 600;
-  font-family: var(--font-sans);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.78em;
+  letter-spacing: 0.14em;
+  font-size: 0.76em;
+  color: rgb(var(--color-muted));
 }
 
-/* 行内代码 */
+/* Inline code */
 .prose-magazine :not(pre) > code {
   font-family: var(--font-mono);
-  font-size: 0.88em;
+  font-size: 0.86em;
   background: rgb(var(--color-subtle));
-  padding: 0.12em 0.4em;
-  border-radius: 3px;
+  padding: 0.14em 0.42em;
+  border-radius: 2px;
   color: rgb(var(--color-accent));
+  font-feature-settings: "ss01";
 }
 
-/* 代码块 */
+/* Code blocks */
 .prose-magazine pre {
-  margin: 1.6em 0;
-  padding: 1.1em 1.3em;
+  margin: 1.8em 0;
+  padding: 1.2em 1.4em;
   background: rgb(var(--color-subtle));
   border: 1px solid rgb(var(--color-rule));
-  border-radius: 4px;
+  border-radius: 2px;
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 0.88em;
-  line-height: 1.65;
+  font-size: 0.86em;
+  line-height: 1.7;
+  position: relative;
+}
+.prose-magazine pre::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: rgb(var(--color-accent));
+  opacity: 0.4;
 }
 .prose-magazine pre code {
   background: transparent;
@@ -174,21 +239,36 @@
   font-size: inherit;
 }
 
-/* 图片 */
+/* Images */
 .prose-magazine img {
   display: block;
   width: 100%;
-  margin: 2em auto;
-  border-radius: 2px;
+  margin: 2.4em auto;
+  border-radius: 1px;
+  filter: contrast(1.02) saturate(0.92);
+}
+.prose-magazine figure {
+  margin: 2.4em 0;
+}
+.prose-magazine figure img {
+  margin: 0;
+}
+.prose-magazine figure figcaption {
+  margin-top: 0.6em;
+  font-family: var(--font-display-italic);
+  font-style: italic;
+  font-size: 0.88em;
+  color: rgb(var(--color-muted));
+  text-align: center;
+  letter-spacing: 0.005em;
 }
 
-/* 水平线 — 杂志风装饰 */
+/* Decorative horizontal rule with ornament */
 .prose-magazine hr {
-  margin: 3em auto;
-  width: 80px;
-  height: 1px;
+  margin: 3.2em auto;
   border: 0;
-  background: rgb(var(--color-rule));
+  text-align: center;
+  height: 1.4em;
   position: relative;
 }
 .prose-magazine hr::before {
@@ -197,21 +277,53 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgb(var(--color-paper));
   color: rgb(var(--color-accent));
-  padding: 0 0.6em;
-  font-size: 1.1em;
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  line-height: 1;
+  letter-spacing: 0.6em;
+  padding-left: 0.6em;
+}
+.prose-magazine hr::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent,
+    rgb(var(--color-rule)) 20%,
+    rgb(var(--color-rule)) 80%,
+    transparent);
+  z-index: -1;
 }
 
-/* 自动锚点链接图标 */
+/* Anchor links on hover */
 .prose-magazine .anchor-link {
-  margin-left: 0.4em;
+  margin-left: 0.5em;
   color: rgb(var(--color-muted));
   text-decoration: none;
   opacity: 0;
-  transition: opacity 200ms;
+  transition: opacity 220ms;
+  font-weight: 400;
 }
 .prose-magazine h2:hover .anchor-link,
 .prose-magazine h3:hover .anchor-link {
-  opacity: 1;
+  opacity: 0.6;
+}
+.prose-magazine .anchor-link:hover {
+  opacity: 1 !important;
+  color: rgb(var(--color-accent));
+}
+
+/* First-line small caps for opening paragraph (optional refinement) */
+.prose-magazine .lede {
+  font-family: var(--font-display-italic);
+  font-style: italic;
+  font-size: 1.18em;
+  line-height: 1.5;
+  color: rgb(var(--color-muted));
+  margin-bottom: 1.6em;
+  text-indent: 0;
 }

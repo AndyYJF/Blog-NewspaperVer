@@ -41,6 +41,10 @@ export function truncate(text: string, n: number) {
   return text.slice(0, n).replace(/\s+\S*$/, "") + "…";
 }
 
+/**
+ * @deprecated 仅供环境变量直接读取的早期代码使用。
+ * 新代码应使用 `getSiteConfig()` from "@/lib/settings"，从数据库读。
+ */
 export function siteConfig() {
   return {
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",

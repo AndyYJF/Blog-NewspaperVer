@@ -1,27 +1,28 @@
-/**
- * DeepSeek API 客户端（OpenAI 兼容协议）
- */
-
-const BASE = process.env.DEEPSEEK_BASE_URL ?? "https://api.deepseek.com";
-const MODEL = process.env.DEEPSEEK_MODEL ?? "deepseek-chat";
+import { getSiteConfig } from "./settings";
 
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
   content: string;
 }
 
-export async function chat(messages: ChatMessage[], opts?: { temperature?: number; max_tokens?: number }) {
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  if (!apiKey) throw new Error("DEEPSEEK_API_KEY is not configured");
+export async function chat(
+  messages: ChatMessage[],
+  opts?: { temperature?: number; max_tokens?: number }
+) {
+  const cfg = await getSiteConfig();
+  const apiKey = cfg.ai.apiKey || process.env.DEEPSEEK_API_KEY;
+  const baseUrl = cfg.ai.baseUrl || "https://api.deepseek.com";
+  const model = cfg.ai.model || "deepseek-chat";
+  if (!apiKey) throw new Error("DeepSeek API key is not configured. Set it in /admin/settings.");
 
-  const res = await fetch(`${BASE}/chat/completions`, {
+  const res = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: MODEL,
+      model,
       messages,
       temperature: opts?.temperature ?? 0.6,
       max_tokens: opts?.max_tokens ?? 400,
